@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/backgroundscreen"
+    tools:context=".RegisterActivity">
+
+
+  <ImageView
+      android:id="@+id/imageView"
+      android:layout_width="200dp"
+      android:layout_height="200dp"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintHorizontal_bias="0.497"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent"
+      app:layout_constraintVertical_bias="0.20999998"
+      app:srcCompat="@drawable/logo" />
+
+  <EditText
+      android:id="@+id/InputUsername"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_marginStart="36dp"
+      android:layout_marginTop="48dp"
+      android:layout_marginEnd="36dp"
+      android:background="@drawable/text_input"
+      android:drawableLeft="@drawable/ic_user"
+      android:drawablePadding="10dp"
+      android:ems="10"
+      android:hint="Username"
+      android:inputType="textPersonName"
+      android:minHeight="48dp"
+      android:paddingLeft="20dp"
+      android:paddingTop="10dp"
+      android:paddingRight="10dp"
+      android:paddingBottom="10dp"
+      android:textColor="@color/white"
+      android:textColorHint="@color/white"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintHorizontal_bias="0.0"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/imageView" />
+
+  <EditText
+      android:id="@+id/InputEmail"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="16dp"
+      android:background="@drawable/text_input"
+      android:drawableLeft="@drawable/ic_email"
+      android:drawablePadding="10dp"
+      android:ems="10"
+      android:hint="Email"
+      android:inputType="textEmailAddress"
+      android:minHeight="48dp"
+      android:paddingLeft="20dp"
+      android:paddingTop="10dp"
+      android:paddingRight="10dp"
+      android:paddingBottom="10dp"
+      android:textColor="@color/white"
+      android:textColorHint="@color/white"
+      app:layout_constraintEnd_toEndOf="@+id/InputPassword"
+      app:layout_constraintHorizontal_bias="0.0"
+      app:layout_constraintStart_toStartOf="@+id/InputPassword"
+      app:layout_constraintTop_toBottomOf="@+id/InputPassword" />
+
+  <EditText
+      android:id="@+id/InputPassword"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="16dp"
+      android:background="@drawable/text_input"
+      android:drawableLeft="@drawable/ic_password"
+      android:drawablePadding="10dp"
+      android:ems="10"
+      android:hint="Password"
+      android:inputType="textPassword"
+      android:minHeight="48dp"
+      android:paddingLeft="20dp"
+      android:paddingTop="10dp"
+      android:paddingRight="10dp"
+      android:paddingBottom="10dp"
+      android:textColor="@color/white"
+      android:textColorHint="@color/white"
+      app:layout_constraintEnd_toEndOf="@+id/InputUsername"
+      app:layout_constraintStart_toStartOf="@+id/InputUsername"
+      app:layout_constraintTop_toBottomOf="@+id/InputUsername" />
+
+  <TextView
+      android:id="@+id/alreadyHaveAnAccount"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="16dp"
+      android:hint="Already have an account?"
+      android:text="Already have an account?"
+      android:textColor="@color/white"
+      app:layout_constraintEnd_toEndOf="@+id/btn_register"
+      app:layout_constraintStart_toStartOf="@+id/btn_register"
+      app:layout_constraintTop_toBottomOf="@+id/btn_register" />
+
+  <Button
+      android:id="@+id/btn_register"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="24dp"
+      android:background="@drawable/button_bg"
+      android:text="@string/register"
+      android:textColor="@color/black"
+      app:layout_constraintEnd_toEndOf="@+id/InputEmail"
+      app:layout_constraintStart_toStartOf="@+id/InputEmail"
+      app:layout_constraintTop_toBottomOf="@+id/InputEmail" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

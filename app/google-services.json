@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "357588284147",
+    "project_id": "quizmegame-df195",
+    "storage_bucket": "quizmegame-df195.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:357588284147:android:6fed88830ed5e96d9d3d86",
+        "android_client_info": {
+          "package_name": "com.example.quizmegame"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "357588284147-nfps8bs7ki1idii9i2u1t4sv53tqi1v6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCSQ_6_q11w3D9yxSYU-GRmyAWpyeQqdqw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "357588284147-nfps8bs7ki1idii9i2u1t4sv53tqi1v6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

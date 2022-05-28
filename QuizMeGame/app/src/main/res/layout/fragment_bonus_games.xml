@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:layout_editor_absoluteX="1dp"
+    tools:layout_editor_absoluteY="1dp"
+    android:fillViewport="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:context=".BonusGamesFragment">
+
+        <Button
+            android:id="@+id/btn_luckySpin"
+            android:layout_width="0dp"
+            android:layout_height="110dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/luckyspin"
+            android:fontFamily="@font/ribeye_marrow"
+            android:shadowColor="@color/black"
+            android:text="@string/lucky_spin"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/btn_pickAprize"
+            app:layout_constraintStart_toStartOf="@+id/btn_pickAprize"
+            app:layout_constraintTop_toBottomOf="@+id/btn_pickAprize" />
+
+
+        <Button
+            android:id="@+id/btn_dailyQstn"
+            android:layout_width="0dp"
+            android:layout_height="110dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/dailyquestion"
+            android:fontFamily="@font/ribeye_marrow"
+            android:shadowColor="@color/black"
+            android:text="@string/daily_question"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/btn_luckySpin"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/btn_luckySpin"
+            app:layout_constraintTop_toBottomOf="@+id/btn_luckySpin" />
+
+        <Button
+            android:id="@+id/btn_pickAprize"
+            android:layout_width="0dp"
+            android:layout_height="110dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/pickaprize"
+            android:fontFamily="@font/ribeye_marrow"
+            android:shadowColor="@color/black"
+            android:text="@string/pick_a_prize"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/btn_missions"
+            app:layout_constraintStart_toStartOf="@+id/btn_missions"
+            app:layout_constraintTop_toBottomOf="@+id/btn_missions" />
+
+        <Button
+            android:id="@+id/btn_missions"
+            android:layout_width="0dp"
+            android:layout_height="110dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/missions"
+            android:fontFamily="@font/ribeye_marrow"
+            android:shadowColor="@color/black"
+            android:text="@string/missions"
+
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/btn_trueFalse"
+            app:layout_constraintStart_toStartOf="@+id/btn_trueFalse"
+            app:layout_constraintTop_toBottomOf="@+id/btn_trueFalse" />
+
+        <Button
+            android:id="@+id/btn_trueFalse"
+            android:layout_width="0dp"
+            android:layout_height="110dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/truefalse"
+            android:fontFamily="@font/ribeye_marrow"
+            android:shadowColor="@color/black"
+            android:text="@string/true_false"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/btn_survival"
+            app:layout_constraintStart_toStartOf="@+id/btn_survival"
+            app:layout_constraintTop_toBottomOf="@+id/btn_survival" />
+
+        <Button
+            android:id="@+id/btn_survival"
+            android:layout_width="0dp"
+            android:layout_height="110dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="40dp"
+            android:layout_marginEnd="24dp"
+            android:background="@drawable/survival"
+            android:fontFamily="@font/ribeye_marrow"
+            android:shadowColor="@color/black"
+            android:text="@string/survival"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView_bonus"
+            />
+
+
+        <TextView
+            android:id="@+id/textView_bonus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/ribeye_marrow"
+            android:text="@string/bonus_games"
+            android:textColor="@color/white"
+            android:textSize="28sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.497"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.050000012" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

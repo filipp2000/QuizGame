@@ -1,0 +1,45 @@
+<resources>
+    <string name="app_name">Quiz_me</string>
+    <!-- Preference Titles -->
+    <string name="messages_header">Messages</string>
+    <string name="sync_header">Sync</string>
+
+    <!-- Messages Preferences -->
+    <string name="signature_title">Your signature</string>
+    <string name="reply_title">Default reply action</string>
+
+    <!-- Sync Preferences -->
+    <string name="sync_title">Sync email periodically</string>
+    <string name="attachment_title">Download incoming attachments</string>
+    <string name="attachment_summary_on">Automatically download attachments for incoming emails
+    </string>
+    <string name="attachment_summary_off">Only download attachments when manually requested</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_test_nav">test_nav</string>
+    <string name="title_home">Home</string>
+    <string name="title_profile">Profile</string>
+    <string name="title_settings">Settings</string>
+    <string name="title_bonusGames">Bonus Games</string>
+    <string name="title_shop">Shop</string>
+    <string name="survival">SURVIVAL</string>
+    <string name="survival_un"><u>SURVIVAL</u></string>
+    <string name="true_false">TRUE FALSE</string>
+    <string name="missions">MISSIONS</string>
+    <string name="bonus_games">Bonus Games</string>
+    <string name="pick_a_prize">PICK A PRIZE</string>
+    <string name="lucky_spin">LUCKY SPIN</string>
+    <string name="daily_question">DAILY QUESTION</string>
+    <string name="survival_start_str1">Answer questions correctly to stay alive</string>
+    <string name="survival_start_str2">Compete with other 9 players in real time to earn point for the ranking</string>
+    <string name="survival_start_str3">Keep playing to climb to the top! The higher your rank, the richer you get!</string>
+    <string name="play">PLAY</string>
+    <string name="choose_category">Choose Category</string>
+    <string name="don_t_have_an_account">Don\'t have an account?</string>
+    <string name="geography">Geography</string>
+    <string name="entertainment">Entertainment</string>
+    <string name="sports">Sports</string>
+    <string name="history">History</string>
+    <string name="art">Art</string>
+    <string name="science">Science</string>
+</resources>

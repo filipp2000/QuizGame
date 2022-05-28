@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/home"
+        android:icon="@drawable/ic_home_black_24dp"
+        android:title="@string/title_home" />
+
+    <item
+        android:id="@+id/bonusGames"
+        android:icon="@drawable/ic_games"
+        android:title="@string/title_bonusGames" />
+
+    <item
+        android:id="@+id/shop"
+        android:icon="@drawable/ic_shop"
+        android:title="@string/title_shop" />
+
+    <item
+        android:id="@+id/profile"
+        android:icon="@drawable/ic_profile"
+        android:title="@string/title_profile" />
+
+    <item
+        android:id="@+id/settings"
+        android:icon="@drawable/ic_settings"
+        android:title="@string/title_settings" />
+
+</menu>
