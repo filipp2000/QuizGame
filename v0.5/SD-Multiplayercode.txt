@@ -1,0 +1,127 @@
+title Multiplayer Mode
+actor ΠΑΙΚΤΗΣ
+activate ΠΑΙΚΤΗΣ
+participant MultiplayerMode
+participant MultiplayerModeUI
+participant GameLobby
+ΠΑΙΚΤΗΣ->MultiplayerMode:1. select this mode
+activate MultiplayerMode
+
+participant MultiplayerModeUI
+MultiplayerMode->MultiplayerModeUI:2. display()
+activate MultiplayerModeUI
+ΠΑΙΚΤΗΣ->MultiplayerModeUI:3. select Create New Game
+MultiplayerModeUI->GameLobby:4. setLobby()
+activate GameLobby
+GameLobby->ManageData: 4. getPassword()
+activate ManageData
+ManageData-->>MultiplayerModeUI: 4. return
+participant CategoryModel
+participant ManageData
+MultiplayerModeUI->ManageData:5.getCategoryId()
+
+ManageData-->>CategoryModel:5.return
+activate CategoryModel
+ΠΑΙΚΤΗΣ->CategoryModel:6. select Categories, level of difficulty and rounds
+CategoryModel->MultiplayerModeUI:7. checkPlayerCount()
+deactivate CategoryModel
+MultiplayerModeUI->MultiplayerModeUI:7. setLobbyTimer()
+ΠΑΙΚΤΗΣ->MultiplayerModeUI:8. select Start Game
+deactivate GameLobby
+
+loop #a685c5 i=5 || i=7 || i=10 
+MultiplayerModeUI->ManageData:9. getQuestion()
+participant Question
+deactivate MultiplayerModeUI
+ManageData-->>Question:9. getMultipleChoiceQuestion()
+deactivate ManageData
+activate Question
+Question->Question:9. setQuestionTimer()
+ΠΑΙΚΤΗΣ->Question:10. select Answer
+Question->ManageData:11. checkAnswers()
+deactivate Question
+activate ManageData
+ManageData->ManageData:13. temporarySave()
+end 
+
+ManageData->MultiplayerModeUI:14.displayResults(rewards)
+deactivate ManageData
+activate MultiplayerModeUI
+ΠΑΙΚΤΗΣ->MultiplayerModeUI:15. select Exit
+participant Menu
+MultiplayerModeUI->Menu:15. return
+activate Menu
+deactivate MultiplayerModeUI
+
+alt 1 (Join Game)
+deactivate Menu
+ΠΑΙΚΤΗΣ->MultiplayerModeUI:3.α.1 select Join Game
+activate MultiplayerModeUI
+ΠΑΙΚΤΗΣ->GameLobby:3.α.2 type Lobby Code
+deactivate MultiplayerModeUI
+activate GameLobby
+GameLobby->ManageData: 3.α.3 checkPassword()
+activate ManageData
+ManageData-->>GameLobby:3.α.3 return
+deactivate ManageData
+note left of GameLobby: Επιστρέφει στη βασική\nροή στο βήμα 9
+deactivate GameLobby
+else 2 (wrong code)
+ΠΑΙΚΤΗΣ->GameLobby:3.α.3.α.1 type Lobby Code
+activate GameLobby
+GameLobby->ManageData:3.α.3.α.2 checkPassword()
+activate ManageData
+ManageData-->>GameLobby:3.α.3.α.2 return
+deactivate ManageData
+note left of GameLobby:Επιστρέφει στην εναλλακτική\nροή 1 στο βήμα 3.α.2
+
+deactivate GameLobby
+
+
+end 
+
+alt 3 (New Player Does Not Enter Game)
+
+activate CategoryModel
+CategoryModel->MultiplayerModeUI:7.α.1 checkPlayerCount()
+deactivate CategoryModel
+activate MultiplayerModeUI
+MultiplayerModeUI->MultiplayerModeUI:7.α.2 setLobbyTimer()
+MultiplayerModeUI->Menu: 7.α.3 return
+deactivate MultiplayerModeUI
+activate Menu
+end 
+
+alt 4 (Wrong Answer)
+deactivate Menu
+activate Question
+ΠΑΙΚΤΗΣ->Question:12.α.1 select Answer
+Question->ManageData:12.α.2 checkAnswer()
+deactivate Question
+activate ManageData
+ManageData->ManageData:12.α.3 temporarySave()
+note left of ManageData:Επιστρέφει στη βασική\nροή στο βήμα 12
+deactivate ManageData
+else (Time is Over)
+activate Question
+ΠΑΙΚΤΗΣ->Question:12.β.1 not select answer
+Question->ManageData:12.β.2 checkAnswer()
+deactivate Question
+activate ManageData
+ManageData->ManageData:12.β.2 temporarySave()
+note left of ManageData:Επιστρέφει στη βασική\nροή στο βήμα 12
+deactivate ManageData
+end
+
+alt 6 (Play Again)
+activate MultiplayerModeUI
+ΠΑΙΚΤΗΣ->MultiplayerModeUI:15.α.1 select Play Again
+MultiplayerModeUI->MultiplayerModeUI:15.α.2 checkPlayerCount()
+activate MultiplayerModeUI
+deactivate MultiplayerModeUI
+note left of MultiplayerModeUI: Επιστρέφει στη βασική\nροή στο βήμα 6
+else (Other Player doesn't play again)
+MultiplayerModeUI->Menu:15.β.2 return
+activate Menu
+deactivate MultiplayerModeUI
+end

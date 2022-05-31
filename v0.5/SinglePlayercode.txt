@@ -1,0 +1,124 @@
+title Single Player Mode
+
+actor ΠΑΙΚΤΗΣ
+activate ΠΑΙΚΤΗΣ
+
+participant SinglePlayerMode
+participant SinglePlayerModeUI
+
+ΠΑΙΚΤΗΣ->SinglePlayerMode: 1. select this mode
+activate SinglePlayerMode
+
+participant CategoryModel
+participant ManageData
+SinglePlayerMode->ManageData: 2. getCategoryId()
+activate ManageData
+ManageData-->>CategoryModel: 2. fetchCategory()
+activate CategoryModel
+ΠΑΙΚΤΗΣ->CategoryModel:3. select Categories and level of difficulty
+
+participant Question
+
+loop #a685c5 i=10 
+CategoryModel->ManageData: 4. getQuestion()
+deactivate CategoryModel
+activate Question
+ManageData-->>Question: 4. getMultipleChoiceQuestion()
+Question->Question:4. setQuestionTimer()
+deactivate ManageData
+
+ΠΑΙΚΤΗΣ->Question: 5. select Answer
+Question->ManageData: 6.checkAnswers(selectedAnswer)
+deactivate Question
+activate ManageData
+ManageData->ManageData:7.temporarySave()
+end
+
+ManageData->SinglePlayerModeUI:9.displayResults(rewards)
+deactivate ManageData
+activate SinglePlayerModeUI
+participant Menu
+ΠΑΙΚΤΗΣ->SinglePlayerModeUI:10. select Exit
+SinglePlayerModeUI->Menu:10.return
+activate Menu
+deactivate SinglePlayerModeUI
+
+alt 1(time is over)
+activate Question
+ΠΑΙΚΤΗΣ->Question: not select answer
+deactivate Menu
+
+Question->ManageData: hasLifeToPlay()
+activate ManageData
+deactivate Question
+note left of ManageData: Επιστρέφει στη βασική\nροή στο βήμα 10
+deactivate ManageData
+
+loop #a685c5 i<=3 (use help more than once)
+else 3(use help that removes answers)
+participant Player
+ΠΑΙΚΤΗΣ->SinglePlayerModeUI: 5.β.1 select Help: remove Answers
+activate SinglePlayerModeUI
+SinglePlayerModeUI->Player:5.β.1 useHelp()
+deactivate SinglePlayerModeUI
+activate Player
+Player->ManageData: 5.β.2 getAmount()
+activate ManageData
+ManageData-->Player: 5.β.2 successMessage()
+deactivate ManageData
+Player-->>Question: return
+deactivate Player
+activate Question
+note left of Question: Επιστρέφει στη βασική \nροή στο βήμα 5
+deactivate Question
+alt    4 (not enough coins to use)
+activate Player
+Player->ManageData: 5.β.2.α.1 getAmount()
+activate ManageData
+
+ManageData-->>Player: 5.β.2 errorMessage()
+deactivate ManageData
+note right of Player: Επιστρέφει στη βασική\nροή στο βήμα 5
+deactivate Player
+
+end
+else 5 (use help Correct Answer)
+ΠΑΙΚΤΗΣ->SinglePlayerModeUI: 5.β.2.α.1 select help Correct Answer
+activate SinglePlayerModeUI
+SinglePlayerModeUI->Player: 5.β.2.α.1 useHelp()
+activate Player
+Player-->>ManageData: 5.β.2.α.2 return
+deactivate Player
+activate ManageData
+ManageData->ManageData: temporarySave()
+note left of ManageData: Επιστρέφει στη βασική \nροή στο βήμα 7
+deactivate ManageData
+
+end 
+end 
+
+alt 2 (Play Again)
+activate SinglePlayerModeUI
+ΠΑΙΚΤΗΣ->SinglePlayerModeUI:10.α.1 select Play Again
+SinglePlayerModeUI->CategoryModel:10.α.2 playAgain()
+deactivate SinglePlayerModeUI
+activate CategoryModel
+note left of CategoryModel: Επιστρέφει στη βασική\nροή στο βήμα 2
+deactivate CategoryModel
+end 
+
+alt 7 (incorrect answer)
+activate Question
+ΠΑΙΚΤΗΣ->Question: select Answer
+Question->ManageData: 6.α.1 checkAnswers(selectedAnswer)
+activate ManageData
+ManageData-->>Question: 6.α.1 errorMessage()
+Question->ManageData: 6.α.2 hasLifeToPlay()
+deactivate Question
+note left of ManageData: Επιστρέφει στη βασική \nροή στο βήμα 10
+deactivate ManageData
+else (Play Again)
+note over ΠΑΙΚΤΗΣ: Επιστρέφει στην εναλλακτική ροή 2
+
+
+end 
