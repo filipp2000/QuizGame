@@ -105,5 +105,56 @@ public class CategoriesActivity extends AppCompatActivity {
             }
         });
 
+        entert_categ.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                selectedCategoryName = "entertainment";
+
+
+            }
+        });
+
+        sports_categ.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                selectedCategoryName = "sports";
+
+
+            }
+        });
+
+        history_categ.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                selectedCategoryName = "history";
+
+
+            }
+        });
+
+        science_categ.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                selectedCategoryName = "science";
+
+
+            }
+        });
+
+        art_categ.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                selectedCategoryName = "art";
+
+
+            }
+        });
+
+
     }
 }
