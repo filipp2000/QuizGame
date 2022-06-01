@@ -43,8 +43,9 @@ public class CategoriesActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 selectedCategory = "Entertainment";
-
-
+                Intent intent = new Intent(CategoriesActivity.this, SinglePlayerQuizActivity.class);
+                intent.putExtra("selectedCategory", selectedCategory);
+                startActivity(intent);
             }
         });
 
@@ -53,7 +54,9 @@ public class CategoriesActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 selectedCategory = "Sports";
-
+                Intent intent = new Intent(CategoriesActivity.this, SinglePlayerQuizActivity.class);
+                intent.putExtra("selectedCategory", selectedCategory);
+                startActivity(intent);
 
             }
         });
@@ -63,7 +66,9 @@ public class CategoriesActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 selectedCategory = "History";
-
+                Intent intent = new Intent(CategoriesActivity.this, SinglePlayerQuizActivity.class);
+                intent.putExtra("selectedCategory", selectedCategory);
+                startActivity(intent);
 
             }
         });
@@ -73,7 +78,9 @@ public class CategoriesActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 selectedCategory = "Science";
-
+                Intent intent = new Intent(CategoriesActivity.this, SinglePlayerQuizActivity.class);
+                intent.putExtra("selectedCategory", selectedCategory);
+                startActivity(intent);
 
             }
         });
@@ -83,7 +90,9 @@ public class CategoriesActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 selectedCategory = "Art";
-
+                Intent intent = new Intent(CategoriesActivity.this, SinglePlayerQuizActivity.class);
+                intent.putExtra("selectedCategory", selectedCategory);
+                startActivity(intent);
 
             }
         });

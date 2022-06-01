@@ -7,10 +7,12 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -36,6 +38,9 @@ public class SinglePlayerQuizActivity extends AppCompatActivity {
     //Dialog Variables
     AlertDialog.Builder builderDialog;
     AlertDialog alertDialog;
+
+    //Handler
+    private Handler mHandler = new Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,33 +81,51 @@ public class SinglePlayerQuizActivity extends AppCompatActivity {
         option1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (selectedAnswer.isEmpty()){
+                selectedAnswer = option1.getText().toString();
+                questionList.get(currentQuestnum).setSelectedAnswer(selectedAnswer);
 
-                    selectedAnswer = option1.getText().toString();
-                    option1.setBackgroundResource(R.drawable.wrong_answer);
-                    option1.setTextColor(Color.WHITE);
+                boolean isCorrect = checkAnswer(option1);
+                countDownTimer.cancel();
 
-                    checkAnswer();
-                    questionList.get(currentQuestnum).setSelectedAnswer(selectedAnswer);
-
+                if(isCorrect){
                     setNextQuestion();
+                    //Toast.makeText(SinglePlayerQuizActivity.this,"Correct",Toast.LENGTH_SHORT).show();
                 }
+                else{
+                    countDownTimer.cancel();
+                    mHandler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            dislayResults();
+                            //Toast.makeText(SinglePlayerQuizActivity.this, "Wrong Answer!",Toast.LENGTH_SHORT).show();
+                            //finish();   //close the activity
+                        }
+                    },2000);  //wait 2sec
+                }
+
             }
         });
 
         option2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (selectedAnswer.isEmpty()){
+                selectedAnswer = option2.getText().toString();
+                questionList.get(currentQuestnum).setSelectedAnswer(selectedAnswer);
 
-                    selectedAnswer = option2.getText().toString();
-                    option2.setBackgroundResource(R.drawable.wrong_answer);
-                    option2.setTextColor(Color.WHITE);
+                boolean isCorrect = checkAnswer(option2);
+                countDownTimer.cancel();
 
-                    checkAnswer();
-                    questionList.get(currentQuestnum).setSelectedAnswer(selectedAnswer);
-                    //countDownTimer.cancel();
+                if(isCorrect){
                     setNextQuestion();
+                }
+                else{
+                    countDownTimer.cancel();
+                    mHandler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            dislayResults();
+                        }
+                    },2000);  //wait 2sec
                 }
             }
         });
@@ -110,16 +133,23 @@ public class SinglePlayerQuizActivity extends AppCompatActivity {
         option3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (selectedAnswer.isEmpty()){
+                selectedAnswer = option3.getText().toString();
+                questionList.get(currentQuestnum).setSelectedAnswer(selectedAnswer);
 
-                    selectedAnswer = option3.getText().toString();
-                    option3.setBackgroundResource(R.drawable.wrong_answer);
-                    option3.setTextColor(Color.WHITE);
+                boolean isCorrect = checkAnswer(option3);
+                countDownTimer.cancel();
 
-                    checkAnswer();
-                    questionList.get(currentQuestnum).setSelectedAnswer(selectedAnswer);
-
+                if(isCorrect){
                     setNextQuestion();
+                }
+                else{
+                    countDownTimer.cancel();
+                    mHandler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            dislayResults();
+                        }
+                    },2000);  //wait 2sec
                 }
             }
         });
@@ -127,16 +157,23 @@ public class SinglePlayerQuizActivity extends AppCompatActivity {
         option4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (selectedAnswer.isEmpty()){
+                selectedAnswer = option4.getText().toString();
+                questionList.get(currentQuestnum).setSelectedAnswer(selectedAnswer);
 
-                    selectedAnswer = option4.getText().toString();
-                    option4.setBackgroundResource(R.drawable.wrong_answer);
-                    option4.setTextColor(Color.WHITE);
+                boolean isCorrect = checkAnswer(option4);
+                countDownTimer.cancel();
 
-                    checkAnswer();
-                    questionList.get(currentQuestnum).setSelectedAnswer(selectedAnswer);
-
+                if(isCorrect){
                     setNextQuestion();
+                }
+                else{
+                    countDownTimer.cancel();
+                    mHandler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            dislayResults();
+                        }
+                    },2000);  //wait 2sec
                 }
             }
         });
@@ -158,39 +195,50 @@ public class SinglePlayerQuizActivity extends AppCompatActivity {
         currentQuestnum++;
         countDownTimer.cancel();
 
-        if(currentQuestnum < questionList.size()){
+        mHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if(currentQuestnum < questionList.size()){
 
-            setQuestionTimer(timer);
-            questsNum.setText((currentQuestnum +1) + "/" + questionList.size());
+                    setQuestionTimer(timer);
+                    questsNum.setText((currentQuestnum +1) + "/" + questionList.size());
+
+                    //set option background to unselected
+                    option1.setBackgroundColor(Color.WHITE);
+                    option1.setTextColor(Color.BLACK);
+
+                    option2.setBackgroundColor(Color.WHITE);
+                    option2.setTextColor(Color.BLACK);
+
+                    option3.setBackgroundColor(Color.WHITE);
+                    option3.setTextColor(Color.BLACK);
+
+                    option4.setBackgroundColor(Color.WHITE);
+                    option4.setTextColor(Color.BLACK);
+
+                    question.setText(questionList.get(currentQuestnum).getQuestion());
+                    option1.setText(questionList.get(currentQuestnum).getOption1());
+                    option2.setText(questionList.get(currentQuestnum).getOption2());
+                    option3.setText(questionList.get(currentQuestnum).getOption3());
+                    option4.setText(questionList.get(currentQuestnum).getOption4());
+                }
+                else{
+                    dislayResults();
+                }
+            }
+        },1000);  //wait 1sec
 
 
-            option1.setBackgroundColor(Color.WHITE);
-            option1.setTextColor(Color.BLACK);
 
-            option2.setBackgroundColor(Color.WHITE);
-            option2.setTextColor(Color.BLACK);
+    }
 
-            option3.setBackgroundColor(Color.WHITE);
-            option3.setTextColor(Color.BLACK);
+    private void dislayResults(){
+        Intent intent = new Intent(SinglePlayerQuizActivity.this,QuizResults.class);  //QuizResults
+        intent.putExtra("correct",getCorrectAnswers());
+        //intent.putExtra("incorrect",getIncorrectAnswers());
 
-            option4.setBackgroundColor(Color.WHITE);
-            option4.setTextColor(Color.BLACK);
-
-            question.setText(questionList.get(currentQuestnum).getQuestion());
-            option1.setText(questionList.get(currentQuestnum).getOption1());
-            option2.setText(questionList.get(currentQuestnum).getOption2());
-            option3.setText(questionList.get(currentQuestnum).getOption3());
-            option4.setText(questionList.get(currentQuestnum).getOption4());
-        }
-        else{
-            Intent intent = new Intent(SinglePlayerQuizActivity.this,HomeActivity.class);  //QuizResults
-            intent.putExtra("correct",getCorrectAnswers());
-            intent.putExtra("incorrect",getIncorrectAnswers());
-
-            startActivity(intent);
-            finish();
-        }
-
+        startActivity(intent);
+        finish();
     }
 
     private int getCorrectAnswers(){    //number of correct answers from the quiz
@@ -257,17 +305,32 @@ public class SinglePlayerQuizActivity extends AppCompatActivity {
         tryAgain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(SinglePlayerQuizActivity.this,HomeActivity.class);
-                intent.putExtra("correct",getCorrectAnswers());
-                intent.putExtra("incorrect",getIncorrectAnswers());
-
-                startActivity(intent);
-                finish();
+                dislayResults();
             }
         });
     }
 
-    private void checkAnswer(){
+    public boolean checkAnswer(TextView textView){
+        String selected = textView.getText().toString();
+        final String getCorrectAnswer = questionList.get(currentQuestnum).getCorrectAnswer();
+
+        boolean isCorrect = false;
+
+        if (selected.equals(getCorrectAnswer)){   //correct answer
+            textView.setBackgroundResource(R.drawable.correct_answer);
+            isCorrect = true;
+
+        }
+
+        else {   //incorrect answer
+            showAnswer();
+            textView.setBackgroundResource(R.drawable.wrong_answer);
+        }
+
+        return isCorrect;
+    }
+
+    private void showAnswer(){
         final String getCorrectAnswer = questionList.get(currentQuestnum).getCorrectAnswer();
 
         if(option1.getText().toString().equals(getCorrectAnswer)){
