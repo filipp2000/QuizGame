@@ -44,9 +44,11 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+
         login_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //login();  //remove comments to test
                 if(checkInputFields()){
 
                     dbreference.child("users").addListenerForSingleValueEvent(new ValueEventListener() {
@@ -82,6 +84,7 @@ public class LoginActivity extends AppCompatActivity {
                     });
 
                 }
+
             }
         });
     }

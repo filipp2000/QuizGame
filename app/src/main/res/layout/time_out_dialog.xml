@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="220dp"
+    android:layout_height="210dp"
+    android:layout_gravity="center"
+    android:orientation="vertical"
+    android:gravity="center"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/dialog_red">
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center_horizontal"
+            android:text="@string/time_out"
+            android:textColor="@color/black"
+            android:textSize="26sp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/imageView6"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
+            app:srcCompat="@drawable/ic_timer_32" />
+
+        <Button
+            android:id="@+id/tryAgain"
+            android:layout_width="200dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/timeout_btn"
+            android:text="@string/try_again"
+            android:layout_marginBottom="20dp"
+            android:textAllCaps="false"
+            android:textSize="14sp"
+            android:textColor="@color/white"/>
+
+
+</LinearLayout>
