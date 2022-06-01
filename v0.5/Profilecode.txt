@@ -1,0 +1,113 @@
+title Profile
+
+actor ΠΑΙΚΤΗΣ
+participant Profile
+activate ΠΑΙΚΤΗΣ
+ΠΑΙΚΤΗΣ -> Profile : 1.select Profile
+activate Profile
+
+participant InfoProfileUI
+Profile->InfoProfileUI:2.getProfile()
+activate InfoProfileUI
+deactivate Profile
+
+participant Avatars
+ΠΑΙΚΤΗΣ->Avatars:3.select Avatars
+deactivate InfoProfileUI
+activate Avatars
+Avatars->ManageData: 4.getAvailableAvatars()
+activate ManageData
+Avatars<<--ManageData:5.fetchAvatars()
+deactivate ManageData
+#InfoProfileUI<<--Avatars: 5.return()
+deactivate Avatars
+
+participant unlockedAvatars
+participant lockedAvatars
+participant ManageData
+participant Payment
+
+participant Menu
+activate Menu
+ΠΑΙΚΤΗΣ->Menu:7.select Exit
+deactivate Menu
+
+alt 1 (Change Avatars)
+
+ΠΑΙΚΤΗΣ->Avatars:3.α.1 select change Avatar
+activate Avatars
+
+Avatars->ManageData:3.α.2 getAvatars()
+activate ManageData
+unlockedAvatars<<--ManageData:3.α.2 fetchUnlocked()
+activate unlockedAvatars
+ 
+lockedAvatars<<--ManageData:3.α.2 fetchLocked()
+activate lockedAvatars
+
+ΠΑΙΚΤΗΣ->unlockedAvatars:3.α.3 select Avatar
+deactivate lockedAvatars
+unlockedAvatars->InfoProfileUI: 3.α.4 updateProfile()
+deactivate unlockedAvatars
+activate InfoProfileUI
+deactivate Avatars
+deactivate ManageData
+
+alt 2 (Buy Avatars)
+ΠΑΙΚΤΗΣ->Avatars:3.α.3.α.1 select Buy Avatars
+deactivate InfoProfileUI
+activate Avatars
+Avatars->lockedAvatars: 3.α.3.α.1 buyAvatars()
+activate lockedAvatars
+lockedAvatars->Payment: 3.α.3.α.2 buyRequest()
+deactivate lockedAvatars
+activate Payment
+ΠΑΙΚΤΗΣ->Payment:3.α.3.α.3 insert payment info
+Payment->unlockedAvatars: 3.α.3.α.4 validPaymentInfo()
+deactivate Payment
+activate unlockedAvatars
+unlockedAvatars->ManageData: 3.α.3.α.5 saveNewItem() 
+deactivate unlockedAvatars
+activate ManageData
+ManageData-->>Avatars:3.α.3.α.6 return
+deactivate ManageData
+note left of Avatars:Επιστροφή στην alt 1\nστο βήμα 3.α.3
+deactivate Avatars
+
+else alt 5 (invalid payment info)
+activate Payment
+
+Payment->lockedAvatars: 3.α.3.α.4.α.1 validPaymentInfo()
+activate lockedAvatars
+lockedAvatars-->>Payment: 3.α.3.α.4.α.2 errorMessage()
+deactivate lockedAvatars
+note right of Payment:Επιστρέφει στην alt 2\nστο βήμα 3
+deactivate Payment
+
+
+end
+end
+
+alt 3(change username)
+ΠΑΙΚΤΗΣ->InfoProfileUI:6.α.1 change username
+activate InfoProfileUI
+InfoProfileUI->ManageData:6.α.1 changeUsername()
+activate ManageData
+
+ManageData-->>InfoProfileUI:6.α.2 successMessage()
+deactivate ManageData
+note left of InfoProfileUI: Επιστρέφει στη \nβασική στο βήμα 2
+deactivate InfoProfileUI
+else 4 (invalid username)
+activate ManageData
+
+ManageData-->>InfoProfileUI:6.α.1.α.1 errorMessage()
+activate InfoProfileUI
+ΠΑΙΚΤΗΣ->InfoProfileUI: insert new username
+InfoProfileUI->ManageData:6.α.1 changeUsername()
+ManageData-->>InfoProfileUI:6.α.2 successMessage()
+deactivate ManageData
+note left of InfoProfileUI: Επιστρέφει στη \nβασική στο βήμα 2
+deactivate InfoProfileUI
+
+end 

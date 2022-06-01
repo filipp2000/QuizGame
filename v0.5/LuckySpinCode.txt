@@ -1,0 +1,175 @@
+title Lucky Spin
+
+actor ΠΑΙΚΤΗΣ
+activate ΠΑΙΚΤΗΣ
+participant LuckySpin
+activate LuckySpin
+ΠΑΙΚΤΗΣ->LuckySpin: 1. select Lucky Spin mode
+participant LuckySpinUI
+LuckySpin->LuckySpinUI: 2. displaySpin()
+activate LuckySpinUI
+LuckySpinUI->ManageData: 2. checkSpin()
+activate ManageData
+ManageData-->>LuckySpinUI: 2.return
+ΠΑΙΚΤΗΣ->LuckySpinUI: 3. select Spin
+participant ManageData
+
+LuckySpinUI->ManageData:4. getRewards()
+
+ManageData-->>LuckySpinUI:4. displayResults()
+deactivate ManageData
+ΠΑΙΚΤΗΣ->LuckySpinUI: 5. select "Double Gift"
+loop #a685c5 i<=2
+LuckySpinUI->ManageData: 6. getCategoryId()
+deactivate LuckySpinUI
+activate ManageData
+participant CategoryModel
+ManageData-->>CategoryModel:6. return
+activate CategoryModel
+participant Question
+CategoryModel->ManageData: 6.getQuestion()
+deactivate CategoryModel
+ManageData-->>Question: 6.getMultipleChoiceQuestion()
+deactivate ManageData
+activate Question
+Question->Question: 6. setQuestionTimer()
+ΠΑΙΚΤΗΣ->Question: 7. select Answer
+Question->ManageData:8. checkAnswer()
+deactivate Question
+activate ManageData
+
+end
+participant Rewards
+ManageData->Rewards:9.multiplyRewards()
+activate Rewards
+Rewards-->>ManageData: 10. saveNewItem()
+deactivate Rewards
+ManageData->LuckySpinUI:11. displayResults()
+deactivate ManageData
+
+activate LuckySpinUI
+LuckySpinUI->LuckySpinUI:11. setLuckySpinTimer()
+
+ΠΑΙΚΤΗΣ->LuckySpinUI: 12.select "Exit"
+participant Menu
+LuckySpinUI->Menu: 12.return
+activate Menu
+deactivate LuckySpinUI
+
+alt 9 (Spin Again)
+deactivate Menu
+
+ΠΑΙΚΤΗΣ->LuckySpinUI: 12.select "Spin"
+activate LuckySpinUI
+note right of LuckySpinUI:Επιστρέφει στην εναλλακτική\nροή 1 στο βήμα 4.β.1
+deactivate LuckySpinUI
+end 
+
+alt 1 (not free spins & exit)
+
+activate LuckySpinUI
+LuckySpinUI->ManageData: 4.α.1 checkSpin()
+
+activate ManageData
+ManageData-->>LuckySpinUI: 4.α.1 return
+deactivate ManageData
+ΠΑΙΚΤΗΣ->LuckySpinUI:4.α.1 select "Exit"
+LuckySpinUI->Menu: 4.α.2 return
+deactivate LuckySpinUI
+activate Menu
+
+else 2 not free spins & use tickets)
+deactivate Menu
+activate LuckySpinUI
+LuckySpinUI->ManageData: 4.β.1 checkSpin()
+
+activate ManageData
+ManageData-->>LuckySpinUI: 4.β.1 return
+deactivate ManageData
+ΠΑΙΚΤΗΣ->LuckySpinUI:4.β.2 select Tickets
+LuckySpinUI->LuckySpinUI: 4.β.3 confirmationMessage
+ΠΑΙΚΤΗΣ->LuckySpinUI:  4.β.4 select "Confirm"
+LuckySpinUI->ManageData:4.β.5 getAmount()
+activate ManageData
+ManageData->ManageData: 4.β.5 updateProfile()
+ManageData-->>LuckySpinUI: 4.β.5 displaySpin()
+deactivate ManageData
+ΠΑΙΚΤΗΣ->LuckySpinUI: 4.β.6 select "Spin"
+note right of LuckySpinUI: Επιστρέφει στη βασική\nροή στο βήμα 4
+deactivate LuckySpinUI
+else 3 (not enough Tickets)
+activate LuckySpinUI
+LuckySpinUI->ManageData:4.β.4.α.1 getAmount()
+activate ManageData
+ManageData-->>LuckySpinUI:4.β.4.α.2 return
+deactivate ManageData
+ΠΑΙΚΤΗΣ->LuckySpinUI: 4.β.4.α.3 select "Buy Tickets"
+note right of LuckySpinUI: Επιστρέφει στην περίπτωση\nχρήσης Shop στο βήμα 1 της\nεναλλακτικής ροής 2
+deactivate LuckySpinUI
+
+else 4 (Cancel Tickets Usage)
+activate LuckySpinUI
+ΠΑΙΚΤΗΣ->LuckySpinUI: 4.β.4.α.1 select "Cancel"
+LuckySpinUI->Menu: 4.β.4.α.2 return
+activate Menu
+deactivate LuckySpinUI
+
+end 
+deactivate Menu
+
+
+alt    5 (quadruple gift)
+ΠΑΙΚΤΗΣ->LuckySpinUI: 5.α.1 select "Quadruple Gift"
+activate LuckySpinUI
+loop #a685c5 i<=5
+LuckySpinUI->ManageData: 5.α.2 getCategoryId()
+deactivate LuckySpinUI
+activate ManageData
+participant CategoryModel
+ManageData-->>CategoryModel:5.α.2 return
+activate CategoryModel
+participant Question
+CategoryModel->ManageData: 5.α.2 getQuestion()
+deactivate CategoryModel
+ManageData-->>Question: 5.α.2 getMultipleChoiceQuestion()
+deactivate ManageData
+activate Question
+Question->Question: 5.α.2 setQuestionTimer()
+ΠΑΙΚΤΗΣ->Question: 5.α.3 select Answer
+Question->ManageData:5.α.4 checkAnswer()
+deactivate Question
+activate ManageData
+note left of ManageData: Επιστρέφει στη βασική\nροή στο βήμα 11
+deactivate ManageData
+
+end
+
+else    8 (wrong answer in x4)
+activate Question
+Question->ManageData:5.α.4 checkAnswer()
+deactivate Question
+activate ManageData
+note left of ManageData: Επιστρέφει στην εναλλακτική\nροή 7 στο βήμα 8.α.2
+deactivate ManageData
+
+else    6 (keep original gift)
+ΠΑΙΚΤΗΣ->LuckySpinUI: 5.α.1 select "Keep Gift"
+activate LuckySpinUI
+note right of LuckySpinUI: Επιστρέφει στη βασική\nροή στο βήμα 11
+deactivate LuckySpinUI
+
+end 
+
+alt 7 (wrong answer in x2)
+activate Question
+ΠΑΙΚΤΗΣ->Question: 8.α.1 select Answer
+Question->ManageData:8.α.2 checkAnswer()
+activate ManageData
+deactivate Question
+ManageData-->>LuckySpinUI:8.α.3 return
+deactivate ManageData
+activate LuckySpinUI
+note left of LuckySpinUI: Επιστρέφει στη βασική\nροή στο βήμα 11
+deactivate LuckySpinUI
+
+end 

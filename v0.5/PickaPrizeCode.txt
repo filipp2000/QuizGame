@@ -1,0 +1,99 @@
+title Pick a Prize
+
+actor ΠΑΙΚΤΗΣ
+activate ΠΑΙΚΤΗΣ
+participant PickaPrize
+participant PickaPrizeUI
+activate PickaPrize
+ΠΑΙΚΤΗΣ->PickaPrize: 1. select Pick a Prize mode
+PickaPrize->ManageData : 2. checkAvailability()
+activate ManageData
+ManageData-->>PickaPrizeUI: 2.return
+activate PickaPrizeUI
+ΠΑΙΚΤΗΣ->PickaPrizeUI: 3. select Play
+participant ManageData
+loop #a685c5  i=4 
+PickaPrizeUI->ManageData:4. getRewards()
+ManageData-->>PickaPrizeUI:4. return
+deactivate ManageData
+ΠΑΙΚΤΗΣ->PickaPrizeUI:5. select Box
+PickaPrizeUI->PickaPrizeUI:6. revealReward()
+end 
+PickaPrizeUI->ManageData:7. temporarySave()
+activate ManageData
+ΠΑΙΚΤΗΣ->PickaPrizeUI:8. select Collect Prizes
+PickaPrizeUI->ManageData:9. saveNewItem()
+ManageData->PickaPrizeUI:10. setPickaPrizeTimer()
+deactivate ManageData
+participant Menu
+ΠΑΙΚΤΗΣ->PickaPrizeUI:11. select Exit
+PickaPrizeUI->Menu:11. return
+deactivate PickaPrizeUI
+activate Menu
+
+alt 7(play again)
+deactivate Menu
+activate PickaPrizeUI
+ΠΑΙΚΤΗΣ->PickaPrizeUI: 11.α.1 select "Play"
+note right of PickaPrizeUI:Επιστρέφει στην εναλλακτική\nροή 1 στο βήμα 3.α.1
+deactivate PickaPrizeUI
+end 
+
+alt 1(loss and play again)
+activate PickaPrizeUI
+PickaPrizeUI->PickaPrizeUI:6.α.1 revealReward()
+ΠΑΙΚΤΗΣ->PickaPrizeUI:6.α.3 select Play Again
+note right of PickaPrizeUI: Επιστρέφει στη βασίκη\nροή στο βήμα 2
+deactivate PickaPrizeUI
+else 2(loss and exit)
+activate PickaPrizeUI
+ΠΑΙΚΤΗΣ->PickaPrizeUI:6.α.3.β select Exit
+PickaPrizeUI->Menu:6.α.3.β return
+deactivate PickaPrizeUI
+activate Menu
+end 
+deactivate Menu
+alt 3(no game)
+PickaPrize->ManageData : 3.α.1 checkAvailability()
+activate ManageData
+ManageData-->>PickaPrizeUI: 3.α.1 return
+activate PickaPrizeUI
+deactivate ManageData
+ΠΑΙΚΤΗΣ->PickaPrizeUI:3.α.2 select Tickets
+PickaPrizeUI->PickaPrizeUI: 3.α.3 confirmationMessage
+ΠΑΙΚΤΗΣ->PickaPrizeUI:  3.α.4 select "Confirm"
+PickaPrizeUI->ManageData:3.α.5 getAmount()
+activate ManageData
+ManageData->ManageData: 3.α.5 updateProfile()
+ManageData-->>PickaPrizeUI: 3.α.6 return
+deactivate ManageData
+ΠΑΙΚΤΗΣ->PickaPrizeUI: 3.α.7 select "Play"
+note right of PickaPrizeUI: Επιστρέφει στη βασική\nροή στο βήμα 4
+deactivate PickaPrizeUI
+
+else 4 (not enough Tickets)
+activate PickaPrizeUI
+PickaPrizeUI->ManageData:3.α.2.α.1 getAmount()
+activate ManageData
+ManageData-->>PickaPrizeUI:3.α.2.α.2 return
+deactivate ManageData
+ΠΑΙΚΤΗΣ->PickaPrizeUI: 3.α.2.α.3 select "Buy Tickets"
+note right of PickaPrizeUI: Επιστρέφει στην περίπτωση\nχρήσης Shop στο βήμα 1 της\nεναλλακτικής ροής 2
+deactivate PickaPrizeUI
+
+else 5 (Cancel Tickets Usage)
+activate PickaPrizeUI
+ΠΑΙΚΤΗΣ->PickaPrizeUI: 3.α.4.α.1 select "Cancel"
+PickaPrizeUI->Menu: 3.α.4.α.2 return
+activate Menu
+deactivate PickaPrizeUI
+
+end 
+deactivate Menu
+alt 6(continue playing)
+ΠΑΙΚΤΗΣ->PickaPrizeUI:8.α.1 select "Continue"
+activate PickaPrizeUI
+note right of PickaPrizeUI:Επιστρέφει στη βασική\nροή στο βήμα 4
+deactivate PickaPrizeUI
+end 
+
