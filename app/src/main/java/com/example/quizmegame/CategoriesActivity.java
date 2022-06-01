@@ -3,12 +3,14 @@ package com.example.quizmegame;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 
 public class CategoriesActivity extends AppCompatActivity {
 
-    private String selectedCategoryName;
+    private String selectedCategory;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,13 +24,16 @@ public class CategoriesActivity extends AppCompatActivity {
         final CardView science_categ = findViewById(R.id.science_categ);
         final CardView art_categ = findViewById(R.id.art_categ);
 
+        final ImageView back_btn = findViewById(R.id.back_arrow);
 
         geo_categ.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                selectedCategoryName = "geography";
-
+                selectedCategory = "Geography";
+                Intent intent = new Intent(CategoriesActivity.this, SinglePlayerQuizActivity.class);
+                intent.putExtra("selectedCategory", selectedCategory);
+                startActivity(intent);
 
             }
         });
@@ -37,7 +42,7 @@ public class CategoriesActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                selectedCategoryName = "entertainment";
+                selectedCategory = "Entertainment";
 
 
             }
@@ -47,7 +52,7 @@ public class CategoriesActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                selectedCategoryName = "sports";
+                selectedCategory = "Sports";
 
 
             }
@@ -57,7 +62,7 @@ public class CategoriesActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                selectedCategoryName = "history";
+                selectedCategory = "History";
 
 
             }
@@ -67,7 +72,7 @@ public class CategoriesActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                selectedCategoryName = "science";
+                selectedCategory = "Science";
 
 
             }
@@ -77,9 +82,17 @@ public class CategoriesActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                selectedCategoryName = "art";
+                selectedCategory = "Art";
 
 
+            }
+        });
+
+        back_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(CategoriesActivity.this,HomeActivity.class));
+                finish();
             }
         });
 
