@@ -32,11 +32,13 @@ public class BonusGamesFragment extends Fragment {
         survival_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getActivity(), SurvivalQuizActivity.class));
+                startActivity(new Intent(getActivity(), SurvivalStartingActivity.class));
             }
         });
+
+
+
         return myView;
     }
-
 
 }

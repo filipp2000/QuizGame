@@ -23,6 +23,7 @@ public class CategoriesActivity extends AppCompatActivity {
         final CardView history_categ = findViewById(R.id.history_categ);
         final CardView science_categ = findViewById(R.id.science_categ);
         final CardView art_categ = findViewById(R.id.art_categ);
+        final CardView any_categ = findViewById(R.id.any_categ);
 
         final ImageView back_btn = findViewById(R.id.back_arrow);
 
@@ -90,6 +91,18 @@ public class CategoriesActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 selectedCategory = "Art";
+                Intent intent = new Intent(CategoriesActivity.this, SinglePlayerQuizActivity.class);
+                intent.putExtra("selectedCategory", selectedCategory);
+                startActivity(intent);
+
+            }
+        });
+
+        any_categ.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                selectedCategory = "Any Category";
                 Intent intent = new Intent(CategoriesActivity.this, SinglePlayerQuizActivity.class);
                 intent.putExtra("selectedCategory", selectedCategory);
                 startActivity(intent);

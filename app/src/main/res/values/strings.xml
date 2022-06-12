@@ -49,4 +49,8 @@
     <string name="register">REGISTER</string>
     <string name="time_out">Time Out...</string>
     <string name="try_again">Try Again</string>
+    <string name="join_a_game">Join A Game</string>
+    <string name="create_a_game">CREATE A GAME</string>
+    <string name="submit">SUBMIT</string>
+    <string name="email">Email</string>
 </resources>

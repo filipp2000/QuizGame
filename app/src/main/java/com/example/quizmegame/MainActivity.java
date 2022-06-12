@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -17,9 +18,15 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
                 startActivity(new Intent(MainActivity.this, LoginActivity.class));
-
-                finish(); //closes the spash screen
+                //uploadQuestions();  // remove comments to update questions in db
+                finish(); //closes the splash screen
             }
         },3000);  //3sec
+    }
+
+    public void uploadQuestions() {
+        QuestionsDB qstdb = new QuestionsDB();
+        qstdb.uploadQuestionsToDB();
+        Toast.makeText(MainActivity.this, "Question list uploaded successfully",Toast.LENGTH_LONG).show();
     }
 }

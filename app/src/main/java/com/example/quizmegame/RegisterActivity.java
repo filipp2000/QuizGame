@@ -11,16 +11,23 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class RegisterActivity extends AppCompatActivity {
 
     // create an object of firebase's realtime database
-    private final DatabaseReference dbreference  = FirebaseDatabase.getInstance("https://quizmegame-df195-default-rtdb.europe-west1.firebasedatabase.app/").getReference();
+    //private final DatabaseReference dbreference  = FirebaseDatabase.getInstance("https://quizmegame-df195-default-rtdb.europe-west1.firebasedatabase.app/").getReference();
+    FirebaseAuth auth;
+    FirebaseFirestore database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +41,8 @@ public class RegisterActivity extends AppCompatActivity {
         final Button register_btn = findViewById(R.id.btn_register);
         final TextView haveAccount = findViewById(R.id.alreadyHaveAnAccount);
 
+        auth = FirebaseAuth.getInstance();
+        database = FirebaseFirestore.getInstance();
 
         haveAccount.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,31 +67,35 @@ public class RegisterActivity extends AppCompatActivity {
                     Toast.makeText(RegisterActivity.this, "Fill all fields",Toast.LENGTH_SHORT).show();
                 }
                 else{
-
-                    dbreference.child("users").addListenerForSingleValueEvent(new ValueEventListener() {
+                    auth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()){
+                                User user = new User(username,password,email);
 
-                            //check if username is not registered before
-                            if(snapshot.hasChild(username)){
-                                Toast.makeText(RegisterActivity.this, username + " is already registered",Toast.LENGTH_SHORT).show();
+                                String uid = task.getResult().getUser().getUid();
+
+                                database.collection("users").document(uid).set(user)
+                                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                    @Override
+                                                    public void onComplete(@NonNull Task<Void> task) {
+                                                        if (task.isSuccessful()){
+                                                            Toast.makeText(RegisterActivity.this, "Registered successfully",Toast.LENGTH_SHORT).show();
+                                                            startActivity(new Intent(RegisterActivity.this, HomeActivity.class));
+                                                            finish();
+                                                        }
+                                                        else{
+                                                            Toast.makeText(RegisterActivity.this, task.getException().getLocalizedMessage(),Toast.LENGTH_SHORT).show();
+                                                        }
+                                                    }
+                                                });
+
+                            }else {
+                                Toast.makeText(RegisterActivity.this, task.getException().getLocalizedMessage(),Toast.LENGTH_SHORT).show();
                             }
-                            else{
-                                User user = new User(username, password, email);
-
-                                // sending data to database using username as unique identity of every user
-                                dbreference.child("users").child(username).setValue(user);
-                                Toast.makeText(RegisterActivity.this, username + " registered successfully",Toast.LENGTH_SHORT).show();
-                                finish();   //close the activity
-                            }
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
 
                         }
                     });
-
                 }
 
             }

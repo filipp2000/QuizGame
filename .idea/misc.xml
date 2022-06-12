@@ -11,6 +11,8 @@
         <entry key="..\:/Users/Georgia/AndroidStudioProjects/QuizGame/app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="..\:/Users/filip/OneDrive/Desktop/AndroidStudioProjects/QuizMeGame/app/src/main/res/drawable/box.xml" value="0.3675" />
         <entry key="..\:/Users/filip/OneDrive/Desktop/AndroidStudioProjects/QuizMeGame/app/src/main/res/drawable/btn_play.xml" value="0.3675" />
+        <entry key="..\:/Users/filip/OneDrive/Desktop/AndroidStudioProjects/QuizMeGame/app/src/main/res/drawable/button_bg.xml" value="0.3675" />
+        <entry key="..\:/Users/filip/OneDrive/Desktop/AndroidStudioProjects/QuizMeGame/app/src/main/res/drawable/button_submit.xml" value="0.3665" />
         <entry key="..\:/Users/filip/OneDrive/Desktop/AndroidStudioProjects/QuizMeGame/app/src/main/res/drawable/correct_answer.xml" value="0.3675" />
         <entry key="..\:/Users/filip/OneDrive/Desktop/AndroidStudioProjects/QuizMeGame/app/src/main/res/drawable/empty_background.xml" value="0.3675" />
         <entry key="..\:/Users/filip/OneDrive/Desktop/AndroidStudioProjects/QuizMeGame/app/src/main/res/drawable/ic_back.xml" value="0.3675" />
@@ -19,12 +21,24 @@
         <entry key="..\:/Users/filip/OneDrive/Desktop/AndroidStudioProjects/QuizMeGame/app/src/main/res/drawable/time_out_dialog.xml" value="0.3665" />
         <entry key="..\:/Users/filip/OneDrive/Desktop/AndroidStudioProjects/QuizMeGame/app/src/main/res/drawable/timeout_btn.xml" value="0.3665" />
         <entry key="..\:/Users/filip/OneDrive/Desktop/AndroidStudioProjects/QuizMeGame/app/src/main/res/drawable/wrong_answer.xml" value="0.3665" />
-        <entry key="..\:/Users/filip/OneDrive/Desktop/AndroidStudioProjects/QuizMeGame/app/src/main/res/layout/activity_categories.xml" value="0.36367753623188404" />
-        <entry key="..\:/Users/filip/OneDrive/Desktop/AndroidStudioProjects/QuizMeGame/app/src/main/res/layout/activity_login.xml" value="0.25" />
+        <entry key="..\:/Users/filip/OneDrive/Desktop/AndroidStudioProjects/QuizMeGame/app/src/main/res/layout/activity_categories.xml" value="0.23783783783783785" />
+        <entry key="..\:/Users/filip/OneDrive/Desktop/AndroidStudioProjects/QuizMeGame/app/src/main/res/layout/activity_create_join_room.xml" value="0.25" />
+        <entry key="..\:/Users/filip/OneDrive/Desktop/AndroidStudioProjects/QuizMeGame/app/src/main/res/layout/activity_create_join_screen.xml" value="0.33061594202898553" />
+        <entry key="..\:/Users/filip/OneDrive/Desktop/AndroidStudioProjects/QuizMeGame/app/src/main/res/layout/activity_home.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/filip/OneDrive/Desktop/AndroidStudioProjects/QuizMeGame/app/src/main/res/layout/activity_login.xml" value="0.33" />
         <entry key="..\:/Users/filip/OneDrive/Desktop/AndroidStudioProjects/QuizMeGame/app/src/main/res/layout/activity_main.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/filip/OneDrive/Desktop/AndroidStudioProjects/QuizMeGame/app/src/main/res/layout/activity_multiplayer_quiz.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/filip/OneDrive/Desktop/AndroidStudioProjects/QuizMeGame/app/src/main/res/layout/activity_quiz_results.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/filip/OneDrive/Desktop/AndroidStudioProjects/QuizMeGame/app/src/main/res/layout/activity_register.xml" value="0.36666666666666664" />
-        <entry key="..\:/Users/filip/OneDrive/Desktop/AndroidStudioProjects/QuizMeGame/app/src/main/res/layout/activity_single_player_quiz.xml" value="0.33" />
+        <entry key="..\:/Users/filip/OneDrive/Desktop/AndroidStudioProjects/QuizMeGame/app/src/main/res/layout/activity_single_player_quiz.xml" value="0.25" />
+        <entry key="..\:/Users/filip/OneDrive/Desktop/AndroidStudioProjects/QuizMeGame/app/src/main/res/layout/activity_starting_survival.xml" value="0.23641304347826086" />
+        <entry key="..\:/Users/filip/OneDrive/Desktop/AndroidStudioProjects/QuizMeGame/app/src/main/res/layout/activity_survival_quiz.xml" value="0.33" />
+        <entry key="..\:/Users/filip/OneDrive/Desktop/AndroidStudioProjects/QuizMeGame/app/src/main/res/layout/activity_survival_starting.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/filip/OneDrive/Desktop/AndroidStudioProjects/QuizMeGame/app/src/main/res/layout/create_join_dialog.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/filip/OneDrive/Desktop/AndroidStudioProjects/QuizMeGame/app/src/main/res/layout/fragment_bonus_games.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/filip/OneDrive/Desktop/AndroidStudioProjects/QuizMeGame/app/src/main/res/layout/fragment_home.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/filip/OneDrive/Desktop/AndroidStudioProjects/QuizMeGame/app/src/main/res/layout/join_dialog.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/filip/OneDrive/Desktop/AndroidStudioProjects/QuizMeGame/app/src/main/res/layout/tetstst.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/filip/OneDrive/Desktop/AndroidStudioProjects/QuizMeGame/app/src/main/res/layout/time_out_dialog.xml" value="0.33" />
         <entry key="..\:/Users/filip/OneDrive/Desktop/AndroidStudioProjects/QuizMeGame/app/src/main/res/menu/bottom_nav_menu.xml" value="0.2296875" />
       </map>
