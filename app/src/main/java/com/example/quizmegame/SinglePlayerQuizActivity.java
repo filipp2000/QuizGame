@@ -1,8 +1,10 @@
 package com.example.quizmegame;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -12,7 +14,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -24,15 +31,12 @@ public class SinglePlayerQuizActivity extends AppCompatActivity {
     private TextView option1, option2, option3, option4;
 
     private TextView questsNum;
-    private int currentQuestnum = 0;
-
-    private TextView selectedCategory;
+    private int currentQuestNum = 0;
 
     private TextView timer;
     CountDownTimer countDownTimer;
 
-    private ArrayList<Question> questionList;
-
+    private ArrayList<Question> questionList = new ArrayList<>();
     private String selectedAnswer = "";
 
     //Dialog Variables
@@ -48,7 +52,7 @@ public class SinglePlayerQuizActivity extends AppCompatActivity {
         setContentView(R.layout.activity_single_player_quiz);
 
         final ImageView back_btn = findViewById(R.id.back_arrow);
-        selectedCategory = findViewById(R.id.selectedCategory);
+        TextView selectedCategory = findViewById(R.id.selectedCategory);
 
         questsNum = findViewById(R.id.questsNum);
         question = findViewById(R.id.question);
@@ -59,30 +63,78 @@ public class SinglePlayerQuizActivity extends AppCompatActivity {
         option4 = findViewById(R.id.option4);
 
 
-
+        // get selected category from CategoriesActivity
         final String getSelectedCateg = getIntent().getStringExtra("selectedCategory");
-
         selectedCategory.setText(getSelectedCateg);
 
-        questionList = QuestionsDB.getQuestions(getSelectedCateg);
-
         timer = findViewById(R.id.timer);
-        setQuestionTimer(timer);
 
-        questsNum.setText((currentQuestnum +1) + "/" + questionList.size());
 
-        question.setText(questionList.get(0).getQuestion());
-        option1.setText(questionList.get(0).getOption1());
-        option2.setText(questionList.get(0).getOption2());
-        option3.setText(questionList.get(0).getOption3());
-        option4.setText(questionList.get(0).getOption4());
+        // get questions from firebase according to selected category
+        //DatabaseReference dbreference  = FirebaseDatabase.getInstance("https://quizmegame-df195-default-rtdb.europe-west1.firebasedatabase.app/").getReference();
+        Query dbreference = FirebaseDatabase.getInstance("https://quizmegame-df195-default-rtdb.europe-west1.firebasedatabase.app/").getReference()
+                .child("Questions").child(getSelectedCateg)
+                .limitToLast(10);
 
+
+        //show dialog while questions are being fetched
+        ProgressDialog progressDialog = new ProgressDialog(SinglePlayerQuizActivity.this);
+        progressDialog.setCancelable(false);
+        progressDialog.setMessage("Loading");
+        progressDialog.show();
+
+
+        dbreference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                //int count = (int) snapshot.getChildrenCount();
+                //int rand = new Random().nextInt(count);
+
+                // getting all questions for a specific category
+                for (DataSnapshot dataSnapshot: snapshot.getChildren()){
+
+
+                    // getting data from firebase db
+                    final String getQuestion = dataSnapshot.child("question").getValue(String.class);
+                    final String getOption1 = dataSnapshot.child("option1").getValue(String.class);
+                    final String getOption2 = dataSnapshot.child("option2").getValue(String.class);
+                    final String getOption3 = dataSnapshot.child("option3").getValue(String.class);
+                    final String getOption4 = dataSnapshot.child("option4").getValue(String.class);
+                    final String getCorrectAnswer = dataSnapshot.child("correctAnswer").getValue(String.class);
+
+                    // adding data to the questionList
+                    Question question = new Question(getQuestion,getOption1,getOption2,getOption3,getOption4,getCorrectAnswer,selectedAnswer);
+                    questionList.add(question);
+                }
+
+
+                // hide dialog
+                progressDialog.dismiss();
+
+                // set questions to TextView
+                questsNum.setText((currentQuestNum +1) + "/" + questionList.size());
+
+                question.setText(questionList.get(currentQuestNum).getQuestion());
+                option1.setText(questionList.get(currentQuestNum).getOption1());
+                option2.setText(questionList.get(currentQuestNum).getOption2());
+                option3.setText(questionList.get(currentQuestNum).getOption3());
+                option4.setText(questionList.get(currentQuestNum).getOption4());
+
+                //set question countdown timer
+                setQuestionTimer(timer);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
         option1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 selectedAnswer = option1.getText().toString();
-                questionList.get(currentQuestnum).setSelectedAnswer(selectedAnswer);
+                questionList.get(currentQuestNum).setSelectedAnswer(selectedAnswer);
 
                 boolean isCorrect = checkAnswer(option1);
                 countDownTimer.cancel();
@@ -110,7 +162,7 @@ public class SinglePlayerQuizActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 selectedAnswer = option2.getText().toString();
-                questionList.get(currentQuestnum).setSelectedAnswer(selectedAnswer);
+                questionList.get(currentQuestNum).setSelectedAnswer(selectedAnswer);
 
                 boolean isCorrect = checkAnswer(option2);
                 countDownTimer.cancel();
@@ -134,7 +186,7 @@ public class SinglePlayerQuizActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 selectedAnswer = option3.getText().toString();
-                questionList.get(currentQuestnum).setSelectedAnswer(selectedAnswer);
+                questionList.get(currentQuestNum).setSelectedAnswer(selectedAnswer);
 
                 boolean isCorrect = checkAnswer(option3);
                 countDownTimer.cancel();
@@ -158,7 +210,7 @@ public class SinglePlayerQuizActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 selectedAnswer = option4.getText().toString();
-                questionList.get(currentQuestnum).setSelectedAnswer(selectedAnswer);
+                questionList.get(currentQuestNum).setSelectedAnswer(selectedAnswer);
 
                 boolean isCorrect = checkAnswer(option4);
                 countDownTimer.cancel();
@@ -192,16 +244,16 @@ public class SinglePlayerQuizActivity extends AppCompatActivity {
 
 
     private void setNextQuestion(){
-        currentQuestnum++;
+        currentQuestNum++;
         countDownTimer.cancel();
 
         mHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                if(currentQuestnum < questionList.size()){
+                if(currentQuestNum < questionList.size()){
 
                     setQuestionTimer(timer);
-                    questsNum.setText((currentQuestnum +1) + "/" + questionList.size());
+                    questsNum.setText((currentQuestNum +1) + "/" + questionList.size());
 
                     //set option background to unselected
                     option1.setBackgroundColor(Color.WHITE);
@@ -216,11 +268,11 @@ public class SinglePlayerQuizActivity extends AppCompatActivity {
                     option4.setBackgroundColor(Color.WHITE);
                     option4.setTextColor(Color.BLACK);
 
-                    question.setText(questionList.get(currentQuestnum).getQuestion());
-                    option1.setText(questionList.get(currentQuestnum).getOption1());
-                    option2.setText(questionList.get(currentQuestnum).getOption2());
-                    option3.setText(questionList.get(currentQuestnum).getOption3());
-                    option4.setText(questionList.get(currentQuestnum).getOption4());
+                    question.setText(questionList.get(currentQuestNum).getQuestion());
+                    option1.setText(questionList.get(currentQuestNum).getOption1());
+                    option2.setText(questionList.get(currentQuestNum).getOption2());
+                    option3.setText(questionList.get(currentQuestNum).getOption3());
+                    option4.setText(questionList.get(currentQuestNum).getOption4());
                 }
                 else{
                     dislayResults();
@@ -228,14 +280,12 @@ public class SinglePlayerQuizActivity extends AppCompatActivity {
             }
         },1000);  //wait 1sec
 
-
-
     }
 
     private void dislayResults(){
         Intent intent = new Intent(SinglePlayerQuizActivity.this,QuizResults.class);  //QuizResults
         intent.putExtra("correct",getCorrectAnswers());
-        //intent.putExtra("incorrect",getIncorrectAnswers());
+
 
         startActivity(intent);
         finish();
@@ -257,21 +307,6 @@ public class SinglePlayerQuizActivity extends AppCompatActivity {
         return correctAnswers;
     }
 
-    private int getIncorrectAnswers(){    //number of incorrect answers from the quiz
-        int inCorrectAnswers = 0;
-
-        for (int i=0;i<questionList.size();i++){
-
-            final String getUserSelectedAnswer = questionList.get(i).getSelectedAnswer();
-            final String getCorrectAnswer = questionList.get(i).getCorrectAnswer();
-
-            if (!getUserSelectedAnswer.equals(getCorrectAnswer)){
-                inCorrectAnswers++;
-            }
-        }
-
-        return inCorrectAnswers;
-    }
 
 
     private void setQuestionTimer(TextView timer) {
@@ -312,7 +347,7 @@ public class SinglePlayerQuizActivity extends AppCompatActivity {
 
     public boolean checkAnswer(TextView textView){
         String selected = textView.getText().toString();
-        final String getCorrectAnswer = questionList.get(currentQuestnum).getCorrectAnswer();
+        final String getCorrectAnswer = questionList.get(currentQuestNum).getCorrectAnswer();
 
         boolean isCorrect = false;
 
@@ -331,7 +366,7 @@ public class SinglePlayerQuizActivity extends AppCompatActivity {
     }
 
     private void showAnswer(){
-        final String getCorrectAnswer = questionList.get(currentQuestnum).getCorrectAnswer();
+        final String getCorrectAnswer = questionList.get(currentQuestNum).getCorrectAnswer();
 
         if(option1.getText().toString().equals(getCorrectAnswer)){
             option1.setBackgroundResource(R.drawable.correct_answer);
