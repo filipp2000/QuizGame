@@ -1,0 +1,69 @@
+title Livechat
+
+actor ΠΑΙΚΤΗΣ
+activate ΠΑΙΚΤΗΣ
+
+participant Livechat
+ΠΑΙΚΤΗΣ ->Livechat:1.select this
+activate Livechat
+
+participant Livechat UI
+Livechat ->Livechat UI:2.display chats
+activate Livechat UI
+
+ΠΑΙΚΤΗΣ ->Livechat UI:3.select create
+Livechat ->Livechat UI:4. createChat()
+Livechat ->Livechat UI:4.display ID
+
+loop while connected
+ΠΑΙΚΤΗΣ ->Livechat UI:5.send message
+Livechat UI ->Livechat:6. message()
+end 
+
+ΠΑΙΚΤΗΣ ->Livechat UI:7.disconnect()
+
+participant Manage Data
+Livechat ->Manage Data:8.saveChat()
+activate Manage Data
+
+ΠΑΙΚΤΗΣ ->Livechat UI:9.select menu
+Livechat UI -> Menu:9.return
+activate Menu
+
+deactivate Manage Data
+
+alt 1.Game Chat
+deactivate Menu
+ΠΑΙΚΤΗΣ ->Livechat:1.a.1.select game chat
+Livechat ->Livechat UI:1.a.2. display livechat
+
+loop while game exists
+ΠΑΙΚΤΗΣ ->Livechat UI:1.a.3.send message
+Livechat UI ->Livechat:1.a.3. message()
+end 
+
+Livechat ->Livechat:1.a.4. disconnect()
+note right of Livechat:Συνεχίζει στο βήμα 9 της βασικής ροής
+end
+
+alt 2.1 to 1 Game Chat
+ΠΑΙΚΤΗΣ ->Livechat UI:1.a.2.a.1.select player
+Livechat ->Livechat:1.a.2.a.2create chat
+note right of Livechat:Συνεχίζει στο βήμα 1.a.3 της εναλλακτικής ροής 1
+end 
+
+alt 3.join chat
+ΠΑΙΚΤΗΣ ->Livechat:3.a.1.select join and select chat
+Livechat UI ->Livechat UI:3.a.2.display ID window
+ΠΑΙΚΤΗΣ ->Livechat UI:3.a.3.type id
+Livechat UI ->Manage Data:3.a.4.checkId()
+activate Manage Data
+note right of Livechat UI:Συνεχίζει στο βήμα 5 της βασικής ροής
+deactivate Manage Data
+end 
+
+alt 4. wrong id
+Livechat ->Livechat UI:3.a.2.a.1.wrong id
+Livechat ->Livechat UI:3.a.2.a.2.display ID error message
+note right of Livechat UI:Συνεχίζει στο βήμα 3.a.2 της εναλλακτικής ροής 3
+end 
