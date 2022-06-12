@@ -11,6 +11,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -19,9 +23,9 @@ import com.google.firebase.database.ValueEventListener;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private EditText inputUsername, inputPassword;
-    private Button login_btn;
-    private TextView forgotPass, signUp;
+    private EditText inputEmail, inputPassword;
+
+    FirebaseAuth auth;
 
     // create an object of firebase's realtime database
     private final DatabaseReference dbreference  = FirebaseDatabase.getInstance("https://quizmegame-df195-default-rtdb.europe-west1.firebasedatabase.app/").getReference();
@@ -31,11 +35,19 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        inputUsername = findViewById(R.id.InputUsername);
+        inputEmail = findViewById(R.id.InputEmail);
         inputPassword = findViewById(R.id.InputPassword);
         Button login_btn = findViewById(R.id.btn_login);
         TextView forgotPass = findViewById(R.id.textViewForgotPassword);
         TextView signUp = findViewById(R.id.textViewSignUp);
+
+        auth = FirebaseAuth.getInstance();
+
+
+        if(auth.getCurrentUser() != null) {
+            startActivity(new Intent(LoginActivity.this, HomeActivity.class));
+            finish();
+        }
 
         signUp.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -44,45 +56,27 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-
         login_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //login();  //remove comments to test
-                if(checkInputFields()){
+                if(checkInputFields()) {
 
-                    dbreference.child("users").addListenerForSingleValueEvent(new ValueEventListener() {
+                    //Get the values from the text fields
+                    String email = inputEmail.getText().toString().trim();
+                    String password = inputPassword.getText().toString().trim();
+
+                    auth.signInWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()){
+                                Toast.makeText(LoginActivity.this, "Logged in successfully",Toast.LENGTH_SHORT).show();
+                                login();
+                            } else
+                                Toast.makeText(LoginActivity.this, task.getException().getLocalizedMessage(),Toast.LENGTH_SHORT).show();
 
-                            //Get the values from the text fields
-                            String username = inputUsername.getText().toString().trim();
-                            String password = inputPassword.getText().toString().trim();
-
-                            // check if username exists in firebase
-                            if(snapshot.hasChild(username)){
-                                //get user password from database
-                                String getPassword = snapshot.child(username).child("password").getValue(String.class);
-
-                                if (password.equals(getPassword)){
-                                    Toast.makeText(LoginActivity.this, "Logged in successfully",Toast.LENGTH_SHORT).show();
-
-                                    //open home activity
-                                    login();
-                                }
-                                else
-                                    Toast.makeText(LoginActivity.this, "Wrong Password",Toast.LENGTH_SHORT).show();
-                            }
-                            else
-                                Toast.makeText(LoginActivity.this, "User not registered",Toast.LENGTH_SHORT).show();
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-                            Toast.makeText(LoginActivity.this, "Failed to read value",Toast.LENGTH_SHORT).show();
                         }
                     });
-
                 }
 
             }
@@ -91,8 +85,8 @@ public class LoginActivity extends AppCompatActivity {
 
     private boolean checkInputFields(){
 
-        if(inputUsername.getText().toString().isEmpty()){
-            inputUsername.setError("Enter Email Address");
+        if(inputEmail.getText().toString().isEmpty()){
+            inputEmail.setError("Enter Email Address");
             return false;
         }
 

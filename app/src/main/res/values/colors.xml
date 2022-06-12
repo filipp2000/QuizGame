@@ -9,11 +9,13 @@
     <color name="white">#FFFFFFFF</color>
     <color name="background_purple">#561496</color>
     <color name="orange">#FFA500</color>
-    <color name="black_opacity_20">#80000000</color>
+    <color name="black_opacity_50">#80000000</color>
+    <color name="black_opacity_25">#40000000</color>
     <color name="light_pink">#FFEFFF</color>
     <color name="dialog_red">#ff9999</color>
     <color name="timeOut_btn_red">#ff6666</color>
     <color name="wrong_red">#dd2c00</color>
     <color name="correct_green">#00c853</color>
+    <color name="brown">#674833</color>
 
 </resources>

@@ -7,8 +7,12 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.MenuItem;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -19,6 +23,7 @@ public class HomeActivity extends AppCompatActivity {
     ProfileFragment profileFragment = new ProfileFragment();
     BonusGamesFragment bonusGamesFragment = new BonusGamesFragment();
     ShopFragment shopFragment = new ShopFragment();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,5 +63,6 @@ public class HomeActivity extends AppCompatActivity {
                 return false;
             }
         });
+
     }
 }
