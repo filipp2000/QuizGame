@@ -1,0 +1,95 @@
+title Manage Question
+
+actor ΠΑΙΚΤΗΣ
+participant Manage Question
+activate ΠΑΙΚΤΗΣ
+ΠΑΙΚΤΗΣ->Manage Question:1. select manage question
+activate Manage Question
+
+participant Manage Question UI
+ΠΑΙΚΤΗΣ -> Manage Question UI:2. select create question
+activate Manage Question UI
+
+ΠΑΙΚΤΗΣ ->Manage Question UI:3.type question
+Manage Question UI ->Manage Data:4. checkQuestion()
+activate Manage Data
+Manage Data ->Manage Question UI:5.display saved message
+deactivate Manage Data
+
+ΠΑΙΚΤΗΣ ->Manage Question UI:6. type answers
+Manage Question UI ->Manage Data:7. checkAnswers()
+activate Manage Data
+Manage Data ->Manage Question UI:8.display saved message
+deactivate Manage Data
+
+ΠΑΙΚΤΗΣ ->Manage Question UI:9.select Save
+Manage Question UI ->Manage Data:10. Save()
+activate Manage Data
+Manage Data ->Manage Question UI:11. display saved message
+deactivate Manage Data
+
+alt 3.Delete Question
+ΠΑΙΚΤΗΣ ->Manage Question UI:1.a.1. select delete question
+Manage Question UI ->Manage Question UI:1.a.2. display confirm message
+
+alt 4.Confirm Delete
+ΠΑΙΚΤΗΣ ->Manage Question UI:1.a.3 confirm delete
+Manage Question UI ->Manage Data:1.a.4. Delete()
+activate Manage Data
+Manage Data ->Manage Question UI:1.a.5. display delete confirm
+deactivate Manage Data
+else Cancel Delete
+ΠΑΙΚΤΗΣ ->Manage Question UI:1.a.3.a.1. select cancel delete
+end
+
+end
+
+alt 5.Modify Question
+ΠΑΙΚΤΗΣ ->Manage Question UI:1.b.1. select modify question
+ΠΑΙΚΤΗΣ ->Manage Question UI:1.b.2. select question
+ΠΑΙΚΤΗΣ ->Manage Question UI:1.b.3. modify question
+
+alt 6.Question Exists
+Manage Data ->Manage Question UI:1.b.4.a.1. Question Exists
+activate Manage Data
+Manage Data ->Manage Question UI:1.b.4.a.2.display error message
+else Question doesn't Exist
+Manage Data ->Manage Question UI:1.b.4.display saved message
+deactivate Manage Data
+end
+
+ΠΑΙΚΤΗΣ ->Manage Question UI:1.b.5 modify answers
+
+alt 7.Answers<4
+Manage Data ->Manage Question UI:1.b.6.a.1. No Answers
+activate Manage Data
+Manage Data ->Manage Question UI:1.b.6.a.2. display error message
+else Answers==4
+Manage Data ->Manage Question UI:1.b.6.display saved message
+deactivate Manage Data
+end
+
+ΠΑΙΚΤΗΣ ->Manage Question UI:1b.7.select Save()
+Manage Question UI ->Manage Data:1.b.8. Save()
+activate Manage Data
+Manage Data ->Manage Question UI:1.b.9. display saved message
+deactivate Manage Data
+end
+
+alt 1.Question Exists
+Manage Data ->Manage Question UI:5.a.1. Question Exists
+activate Manage Data
+Manage Data ->Manage Question UI:5.a.2.display error message
+deactivate Manage Data
+end
+
+alt 2.Answers<4
+Manage Data ->Manage Question UI:8.a.1. No Answers
+activate Manage Data
+Manage Data ->Manage Question UI:8.a.2. display error message
+deactivate Manage Data
+end
+
+deactivate ΠΑΙΚΤΗΣ
+deactivate Manage Question
+deactivate Manage Question UI
